@@ -1,6 +1,0 @@
-CREATE TABLE Olipiada (
-    ano INT,
-    sede VARCHAR(255),
-    nome VARCHAR(255),
-    PRIMARY KEY (ano, sede)
-);
