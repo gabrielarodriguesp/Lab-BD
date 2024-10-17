@@ -1,0 +1,79 @@
+[
+    {
+        "ANO": "2000",
+        "PAIS": "Austrália",
+        "CIDADE_SEDE": "Sydney",
+        "DATA_INICIO": "2000-09-15 00:00:00",
+        "DATA_ENCERRAMENTO": "2000-10-01 00:00:00"
+    },
+    {
+        "ANO": "2004",
+        "PAIS": "Grécia",
+        "CIDADE_SEDE": "Atenas",
+        "DATA_INICIO": "2004-08-13 00:00:00",
+        "DATA_ENCERRAMENTO": "2004-08-29 00:00:00"
+    },
+    {
+        "ANO": "2008",
+        "PAIS": "China",
+        "CIDADE_SEDE": "Pequim",
+        "DATA_INICIO": "2008-08-08 00:00:00",
+        "DATA_ENCERRAMENTO": "2008-08-24 00:00:00"
+    },
+    {
+        "ANO": "2012",
+        "PAIS": "Reino Unido",
+        "CIDADE_SEDE": "Londres",
+        "DATA_INICIO": "2012-07-27 00:00:00",
+        "DATA_ENCERRAMENTO": "2012-08-12 00:00:00"
+    },
+    {
+        "ANO": "2016",
+        "PAIS": "Brasil",
+        "CIDADE_SEDE": "Rio de Janeiro",
+        "DATA_INICIO": "2016-08-05 00:00:00",
+        "DATA_ENCERRAMENTO": "2016-08-21 00:00:00"
+    },
+    {
+        "ANO": "2020",
+        "PAIS": "Japão",
+        "CIDADE_SEDE": "Tóquio",
+        "DATA_INICIO": "2021-07-23 00:00:00",
+        "DATA_ENCERRAMENTO": "2021-08-08 00:00:00"
+    },
+    {
+        "ANO": "2024",
+        "PAIS": "França",
+        "CIDADE_SEDE": "Paris",
+        "DATA_INICIO": "2024-07-26 00:00:00",
+        "DATA_ENCERRAMENTO": "2024-08-11 00:00:00"
+    },
+    {
+        "ANO": "2028",
+        "PAIS": "Estados Unidos",
+        "CIDADE_SEDE": "Los Angeles",
+        "DATA_INICIO": "2028-07-21 00:00:00",
+        "DATA_ENCERRAMENTO": "2028-08-06 00:00:00"
+    },
+    {
+        "ANO": "2032",
+        "PAIS": "Austrália",
+        "CIDADE_SEDE": "Brisbane",
+        "DATA_INICIO": "2032-07-23 00:00:00",
+        "DATA_ENCERRAMENTO": "2032-08-08 00:00:00"
+    },
+    {
+        "ANO": "2036",
+        "PAIS": "Alemanha",
+        "CIDADE_SEDE": "Berlin",
+        "DATA_INICIO": "2036-07-24 00:00:00",
+        "DATA_ENCERRAMENTO": "2036-08-09 00:00:00"
+    },
+    {
+        "ANO": "2040",
+        "PAIS": "China",
+        "CIDADE_SEDE": "Shanghai",
+        "DATA_INICIO": "2040-07-25 00:00:00",
+        "DATA_ENCERRAMENTO": "2040-08-10 00:00:00"
+    }
+]
