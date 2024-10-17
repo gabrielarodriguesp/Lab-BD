@@ -1,0 +1,53 @@
+db.TRANSFORMED_DISPUTA.drop()
+db.LOCAL.find()
+db.OLIMPIADA.find()
+db.MODALIDADE.find()
+db.TRANSFORMED_DISPUTA.find()
+db.TRANSFORMED_DISPUTA.drop()
+db.MODALIDADE.find()
+db.TRANSFORMED_DISPUTA.drop()
+db.OLIMPIADA.find()
+db.MODALIDADE.find()
+db.DISPUTA.find()
+db.MODALIDADE.find()
+show collections
+db.DISPUTA.insertOne({ "PAIS1": "Brazil", "PAIS2": "Argentina", "VENCEDOR": "Brazil", "MODALIDADE": "Soccer", /* This should be an integer*/ "OLIMPIADA": "2024", /* This should be an integer*/ "DATA_HORA": "2024-07-26T20:00:00Z", /* This should be a date object*/ "LOCAL": "Maracanã" /* This should be an integer*/ })
+show collections
+db.DISPUTA.createIndex( { PAIS1: 1, PAIS2: 1, MODALIDADE: 1, OLIMPIADA: 1 }, { unique: true } )
+db.LOCAL.createIndex( { NOME: 1 }, { unique: true } )
+db.MODALIDADE.createIndex( { ESPORTE: 1, GENERO: 1 }, { unique: true } )
+db.OLIMPIADA.createIndex( { CIDADE_SEDE: 1, ANO: 1 }, { unique: true } )
+db.PAIS.createIndex( { NOME: 1 }, { unique: true } )
+db.OLIMPIADA.find()
+db.PAIS.find()
+show collections
+use olympics
+it
+db.cities.find({"population": {"$lte": 15000000}})
+db.cities.find({"population": {"$gte": 19000000}})
+db.cities.find({"population": {"$gte": 15000000}})
+db.cities.find({"population": {"$gte": 150000009}})
+db.cities.find({"population": {"$gte": 1500}})
+db.cities.find({"Pupulation": {"$gte": 1500}})
+db.cities.find({"Pupulation": {"$gte": 1500000}})
+db.cities.find({"Pupulation": {"$gte": 15000000}})
+db.cities.find({"Pupulation" $beq 15000000})
+db.cities.find({"country": "Malaysia"})
+db.cities.find({"country": "Belgium"})
+db.cities.find({"country": "Brazil"})
+db.cities.find().limit(200)
+it
+db.cities.find()
+use cities
+show dbs
+db.exemplo.find()
+db.exemplo.insert({"nome": "teste", "sobrenome": "mongo", "email":"teste@mongodb.example"} )
+db.exemplo.insert("nome": "teste", "sobrenome": "mongo", "email":"teste@mongodb.example" )
+show dbs
+db.createCollection("exemplo")
+use meudb
+show dbs
+use test
+db.createCollection("exemplo")
+db.collectiondb.createCollection("exemplo")
+use meudb
