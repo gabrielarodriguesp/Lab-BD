@@ -1,5 +1,0 @@
-db.PAIS.createIndex( { NOME: 1 }, { unique: true } )
-db.OLIMPIADA.createIndex( { CIDADE_SEDE: 1, ANO: 1 }, { unique: true } )
-db.MODALIDADE.createIndex( { ESPORTE: 1, GENERO: 1 }, { unique: true } )
-db.LOCAL.createIndex( { NOME: 1 }, { unique: true } )
-db.DISPUTA.createIndex( { PAIS1: 1, PAIS2: 1, MODALIDADE: 1, OLIMPIADA: 1 }, { unique: true } )

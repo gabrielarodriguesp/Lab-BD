@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+if [ "$1" == 'up' ]; then
+    docker-compose up --build -d
+elif [ "$1" == 'down' ]; then
+    docker-compose down
+elif [ "$1" == 'logs' ]; then
+    docker-compose logs -f
+elif [ "$1" == 'restart' ]; then
+    docker-compose down
+    docker-compose up -d --build
+elif [ "$1" == 'sh' ]; then
+    docker exec -it java-app /bin/bash
+else
+    echo "Invalid argument"
+fi
