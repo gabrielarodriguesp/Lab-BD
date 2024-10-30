@@ -1,0 +1,15 @@
+{
+    "name": "Java Redis Dev Container",
+    "dockerComposeFile": "../docker-compose.yml",
+    "service": "app",
+    "workspaceFolder": "/workspace",
+    "extensions": [
+      "vscjava.vscode-java-pack"  // Java extension for VS Code
+    ],
+    "settings": {
+      "java.home": "/usr/local/openjdk-17"  // Specify the JDK path
+    },
+    "forwardPorts": [8080],
+    "postCreateCommand": "apt-get update && apt-get install -y redis-tools"
+}
+  
