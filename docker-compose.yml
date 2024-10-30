@@ -1,26 +1,41 @@
 
 services:
-  app:
-    build: .
+  java-app:
+    build:
+      context: .
+      args:
+        USER_ID: "${LOCAL_UID}"
+        GROUP_ID: "${LOCAL_GID}"
+        USERNAME: "${LOCAL_USERNAME}"
     container_name: java-app
     volumes:
-      - .:/workspace  # Mount the current directory into the container
-    ports:
-      - "8080:8080"  # Expose your Java application port
-    depends_on:
-      - redis
+      - .:/app  # Bind your local directory to the container's app directory
     networks:
-      - dev-network
+      - app-network
+    user: "${LOCAL_UID}:${LOCAL_GID}"  # Ensure the container runs as your local user
+    environment:
+      - USER_ID=${LOCAL_UID}
+      - GROUP_ID=${LOCAL_GID}
+      - USERNAME=${LOCAL_USERNAME}
+
   redis:
-    image: "redis:latest"
-    container_name: redis-db
-    volumes:
-      - ./redis-data:/data
-    ports:
-      - "6379:6379"
+    image: redis
+    container_name: redis
     networks:
-      - dev-network
+      - app-network
+    volumes:
+      - ./redis-data:/data  # Redis data directory should not be owned by your local user
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: iot_data
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data  # PostgreSQL data directory should not be owned by your local user
+    networks:
+      - app-network
 
 networks:
-  dev-network:
-    driver: bridge
+  app-network:

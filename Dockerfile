@@ -1,17 +1,31 @@
-# Use an official OpenJDK image
-FROM openjdk:17-slim
+FROM openjdk:17-jdk-slim
 
-# Install Redis CLI for testing Redis
-RUN apt-get update && apt-get install -y redis-tools
+# Set environment variables for user, group, and username
+ARG USER_ID
+ARG GROUP_ID
+ARG USERNAME
 
-# Set the working directory
-WORKDIR /workspace
+# Install dependencies
+RUN apt-get update && apt-get install -y \
+    maven \
+    sudo
 
-# Copy the local project to the container's workspace directory
-COPY . /workspace
+# Create a group and user with the same UID, GID, and username as your local machine
+RUN groupadd -g $GROUP_ID devgroup && \
+    useradd -u $USER_ID -g devgroup -m -s /bin/bash $USERNAME && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-# Expose ports for your Java app and Redis
-EXPOSE 8080 6379
+# Switch to the created user
 
-# Command to keep the container running for development
+WORKDIR /app
+# Set the working directory inside the container
+COPY . .
+
+USER $USERNAME
+# Copy the project files
+
+# Run Maven install
+# RUN mvn clean install
+
+# Command to keep the container alive for development
 CMD ["tail", "-f", "/dev/null"]
