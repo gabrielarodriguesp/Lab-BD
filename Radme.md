@@ -10,7 +10,7 @@
 
 ## Pendecias
 
-- resolver while true do postgres processor
+- ~~resolver while true do postgres processor~~
 - opcao de remover dados do redis apos serem salvos no postgres
 - eliminar queue da aplicação principal e colocar os dados direto no redis
 - se possivel colocar algum log para ver a eficiencia do redis

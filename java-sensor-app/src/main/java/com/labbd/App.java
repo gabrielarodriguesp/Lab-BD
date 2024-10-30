@@ -26,35 +26,45 @@ public class App {
         BlockingQueue<SensorData> queue = new ArrayBlockingQueue<>(1000); // Adjust size as needed
 
         // Start the Redis and PostgreSQL processors
-        Thread redisThread = new Thread(new RedisProcessor(queue));
-        Thread postgresThread = new Thread(new PostgresProcessor(queue));
-        
-        redisThread.start();
-        postgresThread.start();
+    RedisProcessor redisProcessor = new RedisProcessor(queue);
+    PostgresProcessor postgresProcessor = new PostgresProcessor(queue);
 
-        // Read and print the JSON file content
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<SensorData> sensorDataList = objectMapper.readValue(jsonFile, objectMapper.getTypeFactory().constructCollectionType(List.class, SensorData.class));
-            
-            // Add sensor data to the queue
-            for (SensorData data : sensorDataList) {
-                queue.put(data); // Blocking call if the queue is full
-                System.out.println("Queued sensor data: " + data);
-            }
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Error processing the JSON file: " + e.getMessage());
-            e.printStackTrace();
+    Thread redisThread = new Thread(redisProcessor);
+    Thread postgresThread = new Thread(postgresProcessor);
+
+    redisThread.start();
+    postgresThread.start();
+
+    // Read and print the JSON file content
+    try {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<SensorData> sensorDataList = objectMapper.readValue(jsonFile, objectMapper.getTypeFactory().constructCollectionType(List.class, SensorData.class));
+        
+        // Add sensor data to the queue
+        for (SensorData data : sensorDataList) {
+            queue.put(data);
+            System.out.println("Queued sensor data: " + data);
         }
 
-        // Wait for the processors to finish (optional, depends on your logic)
-        try {
-            redisThread.join();
-            postgresThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println("Data processing completed.");
+        // Finalize o processador Redis
+        redisProcessor.stop();
+        // Finalize o processador PostgreSQL
+        postgresProcessor.stop();
+
+    } catch (IOException | InterruptedException e) {
+        System.err.println("Error processing the JSON file: " + e.getMessage());
+        e.printStackTrace();
+    }
+
+    // Wait for the processors to finish (optional, depends on your logic)
+    try {
+        redisThread.join();
+        postgresThread.join();
+    } catch (InterruptedException e) {
+        e.printStackTrace();
+    }
+
+    System.out.println("Data processing completed.");
+
     }
 }

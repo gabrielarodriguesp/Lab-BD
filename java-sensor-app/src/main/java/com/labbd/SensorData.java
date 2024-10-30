@@ -1,13 +1,15 @@
 package com.labbd;
 
+import java.time.LocalDateTime;
+
 public class SensorData {
-    private String deviceId;  // Change "device_id" to "deviceId"
+    private String deviceId;
     private double temperature;
     private String timestamp;
-    private double humidity;  // Add humidity field
-    private Location location; // Add location object
+    private double humidity;
+    private Location location;
 
-    // Constructors
+    // Construtores
     public SensorData() {
     }
 
@@ -19,7 +21,7 @@ public class SensorData {
         this.location = location;
     }
 
-    // Getters and Setters
+    // Getters e Setters
     public String getDeviceId() {
         return deviceId;
     }
@@ -59,27 +61,37 @@ public class SensorData {
     public void setLocation(Location location) {
         this.location = location;
     }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "SensorData {deviceId='%s', temperature=%.2f, timestamp='%s', humidity=%.2f, location=%s}",
+            deviceId, temperature, timestamp, humidity, location);
+    }
 }
 
 class Location {
     private double latitude;
     private double longitude;
 
-    // Constructors
+    // Construtores
     public Location() {
     }
 
     public Location(double latitude, double longitude) {
-        this.latitude = latitude;
-        this.longitude = longitude;
+        setLatitude(latitude);
+        setLongitude(longitude);
     }
 
-    // Getters and Setters
+    // Getters e Setters
     public double getLatitude() {
         return latitude;
     }
 
     public void setLatitude(double latitude) {
+        if (latitude < -90 || latitude > 90) {
+            throw new IllegalArgumentException("Latitude must be between -90 and 90 degrees.");
+        }
         this.latitude = latitude;
     }
 
@@ -88,6 +100,14 @@ class Location {
     }
 
     public void setLongitude(double longitude) {
+        if (longitude < -180 || longitude > 180) {
+            throw new IllegalArgumentException("Longitude must be between -180 and 180 degrees.");
+        }
         this.longitude = longitude;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Location {latitude=%.6f, longitude=%.6f}", latitude, longitude);
     }
 }
