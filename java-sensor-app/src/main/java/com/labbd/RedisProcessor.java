@@ -2,30 +2,30 @@ package com.labbd;
 
 import redis.clients.jedis.Jedis;
 
-import java.util.concurrent.BlockingQueue;
-
 public class RedisProcessor implements Runnable {
-    private final BlockingQueue<SensorData> queue;
+    private final Jedis redisClient;
+    private final PostgresProcessor postgresProcessor;
 
-    public RedisProcessor(BlockingQueue<SensorData> queue) {
-        this.queue = queue;
+    public RedisProcessor(Jedis redisClient, PostgresProcessor postgresProcessor) {
+        this.redisClient = redisClient;
+        this.postgresProcessor = postgresProcessor;
     }
 
     @Override
     public void run() {
-        try (Jedis jedis = new Jedis("redis")) {
-            System.out.println("Connected to Redis");
-
-            while (true) {
-                SensorData data = queue.take(); // Blocking call
-                // Push data to Redis as JSON string
-                jedis.lpush("sensor_data", String.format(
-                    "{\"device_id\": \"%s\", \"temperature\": %.2f, \"timestamp\": \"%s\"}",
-                    data.getDeviceId(), data.getTemperature(), data.getTimestamp()));
-                System.out.println("Pushed to Redis: " + data);
+        while (true) {
+            try {
+                String jsonData = redisClient.rpop("sensorQueue");
+                if (jsonData != null) {
+                    System.out.println("Processing JSON Data: " + jsonData); // Debug log
+                    postgresProcessor.saveToDatabase(jsonData);
+                } else {
+                    System.out.println("No more data in the queue."); // Debug log
+                    break; // Exit when Redis queue is empty
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

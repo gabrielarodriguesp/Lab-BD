@@ -1,4 +1,4 @@
+/app/java-sensor-app/src/main/java/com/labbd/JsonReader.java
 /app/java-sensor-app/src/main/java/com/labbd/App.java
 /app/java-sensor-app/src/main/java/com/labbd/PostgresProcessor.java
-/app/java-sensor-app/src/main/java/com/labbd/SensorData.java
 /app/java-sensor-app/src/main/java/com/labbd/RedisProcessor.java

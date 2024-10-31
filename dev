@@ -17,7 +17,7 @@ elif [ "$1" == 'restart' ]; then
     docker-compose up -d --build
 elif [ "$1" == 'sh' ]; then
     docker exec -it java-app /bin/bash
-elif [ "$1" == 'postgres' ]
+elif [ "$1" == 'postgres' ]; then
     docker exec -it lab-bd-postgres-1 psql -h postgres -p 5432 -U user -d iot_data
 elif [ "$1" == 'redis' ]; then
     docker exec -it redis redis-cli

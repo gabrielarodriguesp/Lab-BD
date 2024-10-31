@@ -1,60 +1,33 @@
 package com.labbd;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import redis.clients.jedis.Jedis;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.BlockingQueue;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class App {
-
     public static void main(String[] args) {
-        System.out.println("Starting IoT Data Processor...");
+        String filePath = "../sensor_data.json";
+        ExecutorService executor = Executors.newFixedThreadPool(2);
 
-        // Check if JSON file is loaded correctly
-        String jsonFilePath = "../sensor_data.json"; // Update this path as needed
-        File jsonFile = new File(jsonFilePath);
+        try (Jedis redisClient = new Jedis("redis", 6379);
+             Connection postgresConnection = DriverManager.getConnection(
+                     "jdbc:postgresql://postgres:5432/iot_data", "user", "password")) {
 
-        if (!jsonFile.exists()) {
-            System.err.println("Error: JSON file not found at " + jsonFilePath);
-            return; // Exit if file not found
-        }
+            PostgresProcessor postgresProcessor = new PostgresProcessor(
+                "jdbc:postgresql://postgres:5432/iot_data", "user", "password");
+            JsonReader jsonReader = new JsonReader(filePath, redisClient);
+            RedisProcessor redisProcessor = new RedisProcessor(redisClient, postgresProcessor);
 
-        // Create a blocking queue for sensor data
-        BlockingQueue<SensorData> queue = new ArrayBlockingQueue<>(1000); // Adjust size as needed
-
-        // Start the Redis and PostgreSQL processors
-        Thread redisThread = new Thread(new RedisProcessor(queue));
-        Thread postgresThread = new Thread(new PostgresProcessor(queue));
-        
-        redisThread.start();
-        postgresThread.start();
-
-        // Read and print the JSON file content
-        try {
-            ObjectMapper objectMapper = new ObjectMapper();
-            List<SensorData> sensorDataList = objectMapper.readValue(jsonFile, objectMapper.getTypeFactory().constructCollectionType(List.class, SensorData.class));
-            
-            // Add sensor data to the queue
-            for (SensorData data : sensorDataList) {
-                queue.put(data); // Blocking call if the queue is full
-                System.out.println("Queued sensor data: " + data);
-            }
-        } catch (IOException | InterruptedException e) {
-            System.err.println("Error processing the JSON file: " + e.getMessage());
+            executor.execute(jsonReader);
+            executor.execute(redisProcessor);
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            executor.shutdown();
         }
-
-        // Wait for the processors to finish (optional, depends on your logic)
-        try {
-            redisThread.join();
-            postgresThread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        
-        System.out.println("Data processing completed.");
     }
 }
